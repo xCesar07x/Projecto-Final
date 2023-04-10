@@ -26,6 +26,7 @@ const Product = db.define('products', {
     },
     status: {
         type: DataTypes.BOOLEAN,
+        defaultValue: true,
     },
     userId: {
         type: DataTypes.INTEGER,
@@ -34,6 +35,7 @@ const Product = db.define('products', {
     },
     productImg: {
         type: DataTypes.STRING,
+        allowNull: false,
     }
 }, {
     timestamps: false,

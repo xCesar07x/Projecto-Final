@@ -1,11 +1,10 @@
 const { Router } = require('express');
 const { addCart} = require('../controllers/cart.controllers');
+const { addCartValidator } = require('../validators/cart.validators');
 
 
 const router = Router();
 
-// router.get('/api/v1/cart' )
-
-router.post('/api/v1/cart', addCart )
+router.post('/api/v1/cart', addCartValidator , addCart )
 
 module.exports = router;

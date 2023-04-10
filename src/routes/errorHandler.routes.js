@@ -1,11 +1,13 @@
-const { logError } = require('../middlewares/error.handler');
+const { logError, errorHandler, ormErrorHandler } = require('../middlewares/error.handler');
 
 const errorHandlerRouter = (app) => {
   app.use(logError);
+  app.use(ormErrorHandler);
+  app.use(errorHandler);
 
-  app.use((error, req, res, next) => {
-    res.status(400).json(error);
-   });
+  app.use('*', (req, res) => {
+    return res.status(404).send('Page not found');
+  })
 }
 
 module.exports = errorHandlerRouter;

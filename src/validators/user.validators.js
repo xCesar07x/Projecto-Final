@@ -49,8 +49,13 @@ const updateUserValidator = [
     .withMessage('No se encuentra el nombre para el usuario')
     .notEmpty()
     .withMessage('El nombre no debe ser un string vacio'),
+
+    (req, res, next) => {
+        validateResult(req, res, next);
+    }
 ]
 
 module.exports = {
     createUserValidator,
+    updateUserValidator,
 }

@@ -6,11 +6,14 @@ const initModels = require('./models/initModels');
 const ApiRoutes = require('./routes');
 const errorHandlerRouter = require('./routes/errorHandler.routes');
 
-const PORT = 8000;
-
-const app = express();
 initModels();
 
+const app = express();
+app.use(cors());
+app.use(morgan('dev'));
+app.use(express.json());
+
+const PORT = 8000;
 
 db.authenticate()
     .then(() => {
@@ -26,9 +29,6 @@ db.sync({ force: false })
         console.log(error);
     });
 
-app.use(cors());
-app.use(morgan('dev'));
-app.use(express.json());
 ApiRoutes(app);
 
 app.get("/", (req, res) => {

@@ -1,4 +1,3 @@
-const { error } = require('console');
 const ProductServices = require('../services/product.services');
 
 const getProducts = async (req, res, next) => {

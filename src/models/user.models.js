@@ -25,7 +25,10 @@ const Users = db.define('users', {
     },
     avatar: {
         type: DataTypes.STRING,
-    }
+    },
+    // rol:{
+    //   ['client', 'seller'],
+    // }
 }, {
     timestamps: false,
     hooks:{
