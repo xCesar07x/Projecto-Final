@@ -1,0 +1,626 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "E-commerce API",
+        "description": "Una API para que puedas contruir una Tienda Online.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/user": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Con este enpoint podras crear usuarios",
+                "description": "con este enpoint podras crear un nuevo usuario para la app del Ecommerce",
+                "requestBody": {
+                    "description": "Los campos para crear un usuario son: username, email, password, y avatar(opcinal)",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "created"
+                    },
+                    "409": {
+                        "description": "conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "validation error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database connection error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/{id}": {
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Actualiza el username y avatar de un usuario",
+                "description": "para actualizar el username y el avatar de un usuario necesitas mandar en el body, username y avatar y con path param el id del usuario a actualizar",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "El id del usuario que se va a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Los para actualizar un usuario son username y avatar(optional)",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/updateUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/v1/product": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Con este enpoint podras traer todos los productos",
+                "description": "Este enpoint te permitira traer todos los productos para el ecommerce",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/allProducts"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Con este enpoint podras crear productos",
+                "description": "Este enpoint te permitira crear productos para el ecommerce",
+                "requestBody": {
+                    "description": "Los campos para crear un producto son: name, description, price, userId, productImg(url)",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createdProduct"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "created"
+                    },
+                    "409": {
+                        "description": "conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "validation error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database connection error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/product/{id}": {
+            "put": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Actualiza la descripcion de un Producto",
+                "description": "para actualizar la descripcion de un producto necesitas mandar en el body, description y con path params el id del producto a actualizar",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "El id del producto que se va a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Los para actualizar la description de un producto",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/updateDescription"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/v1/cart": {
+            "post": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Con este enpoint podras crear el carrito",
+                "description": "Este enpoint te permitira crear carrito para el ecommerce",
+                "requestBody": {
+                    "description": "Los campos para crear el carrito son: userId, totalPrice",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createdCart"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "created"
+                    },
+                    "409": {
+                        "description": "conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "validation error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database connection error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/productincart": {
+            "get": {
+                "tags": [
+                    "productincart"
+                ],
+                "summary": "Con este enpoint podras traer todos los productos en el carrito",
+                "description": "Este enpoint te permitira traer todos los productos en el carrito para el ecommerce",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/allProductsInCart"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "productincart"
+                ],
+                "summary": "Con este enpoint podras crear productos en el carrito",
+                "description": "Este enpoint te permitira crear productos en el carrito para el ecommerce",
+                "requestBody": {
+                    "description": "Los campos para crear un producto en el carrito son: cartId, productId, quantity, price, status",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createdProductInCart"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "created"
+                    },
+                    "409": {
+                        "description": "conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "validation error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database connection error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/orders": {
+            "get": {
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Con este enpoint podras traer todos los Ordenes del usuario",
+                "description": "Este enpoint te permitira traer todos las Ordenes del usuario para el ecommerce",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/allOrders"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/productinorder": {
+            "get": {
+                "tags": [
+                    "productinorder"
+                ],
+                "summary": "Con este enpoint podras traer todos los productos en la Orden",
+                "description": "Este enpoint te permitira traer todos los productos en la Orden para el ecommerce",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/allProductsInOrder"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "productinorder"
+                ],
+                "summary": "Con este enpoint podras crear productos en la Orden",
+                "description": "Este enpoint te permitira crear productos en la Orden para el ecommerce",
+                "requestBody": {
+                    "description": "Los campos para crear un producto en la Orden son: orderId, productId, quantity, price, status",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createdProductInOrder"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "created"
+                    },
+                    "409": {
+                        "description": "conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "validation error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database connection error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "login": {
+                "description": "La contraseña debe tener al menos 7 caracteres",
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "example": "jhon"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "jhon.doe@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "1234567"
+                    }
+                }
+            },
+            "updateUser": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "example": "jhonDoe"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "example": "url"
+                    }
+                }
+            },
+            "createdProduct": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Samsung A10"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "es un dispositivo gama baja con poco consumo"
+                    },
+                    "price": {
+                        "type": "float",
+                        "example": 150
+                    },
+                    "userId": {
+                        "type": "integer",
+                        "example": "[ 1, 2, 3 ... ]"
+                    },
+                    "productImg": {
+                        "type": "string",
+                        "example": "url"
+                    }
+                }
+            },
+            "updateDescription": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "example": "shalala shalala"
+                    }
+                }
+            },
+            "allProducts": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "example": 3
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "iphone 13"
+                        },
+                        "price": {
+                            "type": "float",
+                            "example": 1000
+                        },
+                        "user": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string",
+                                    "example": "jhonDoe"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "createdCart": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "totalPrice": {
+                        "type": "float",
+                        "example": 500
+                    }
+                }
+            },
+            "allProductsInCart": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "example": 3
+                        },
+                        "cartId": {
+                            "type": "integer",
+                            "example": 7
+                        },
+                        "productId": {
+                            "type": "integer",
+                            "example": 1
+                        },
+                        "quantity": {
+                            "type": "integer",
+                            "example": 5
+                        },
+                        "price": {
+                            "type": "float",
+                            "example": 300
+                        },
+                        "status": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                }
+            },
+            "createdProductInCart": {
+                "type": "object",
+                "properties": {
+                    "cartId": {
+                        "type": "integer",
+                        "example": 7
+                    },
+                    "productId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "price": {
+                        "type": "float",
+                        "example": 300
+                    },
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                }
+            },
+            "allProductsInOrder": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "example": 3
+                        },
+                        "orderId": {
+                            "type": "integer",
+                            "example": 7
+                        },
+                        "productId": {
+                            "type": "integer",
+                            "example": 1
+                        },
+                        "quantity": {
+                            "type": "integer",
+                            "example": 5
+                        },
+                        "price": {
+                            "type": "float",
+                            "example": 300
+                        },
+                        "status": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                }
+            },
+            "createdProductInOrder":{
+                "type": "object",
+                "properties": {
+                    "orderId": {
+                        "type": "integer",
+                        "example": 7
+                    },
+                    "productId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "price": {
+                        "type": "float",
+                        "example": 300
+                    },
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                }
+            },
+            "allOrders":{
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "example": 3
+                        },
+                        "totalPrice": {
+                            "type": "float",
+                            "example": 100
+                        },
+                        "userId": {
+                            "type": "integer",
+                            "example": 8
+                        },
+                        "status":{
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -5,7 +5,7 @@ const createUser = async (req, res, next) => {
     try {
         const newUser = req.body;
         const result = await UserServices.create(newUser);
-        res.json(result);
+        res.status(201).send();
         await transporter.sendMail({
             from: 'mathcesar02@gmail.com',
             to: result.email,
